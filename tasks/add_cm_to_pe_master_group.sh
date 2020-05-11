@@ -15,15 +15,15 @@ fi
 
 curl -X POST -H "Content-type: application/json" \
 --data \
-'{
-  "classes":  {
-    "puppet_enterprise::profile::master": {
-      "code_manager_auto_configure": true,
-      "r10k_private_key": "/etc/puppetlabs/puppetserver/ssh.key",
-      "r10k_remote": "ssh://git@infra.puppetdebug.vlan:8022/root/control-repo.git"
+"{
+  \"classes\":  {
+    \"puppet_enterprise::profile::master\": {
+      \"code_manager_auto_configure\": true,
+      \"r10k_private_key\": \"/etc/puppetlabs/puppetserver/ssh.key\",
+      \"r10k_remote\":\"${PT_r10k_remote}\"
     }
   }
-}' \
+}" \
 --cert   $(${PUPPETBIN} config print hostcert) \
 --key    $(${PUPPETBIN} config print hostprivkey) \
 --cacert $(${PUPPETBIN} config print localcacert) \
