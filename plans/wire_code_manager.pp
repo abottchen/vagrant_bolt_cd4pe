@@ -25,10 +25,10 @@ plan vagrant_bolt_cd4pe::wire_code_manager(
   run_command('/opt/puppetlabs/bin/puppet agent -t ; if [ $? -eq 2 ]; then exit 0; fi', $targets)
 
   out::message("Setting up dev environment on ${targets}")
-  run_plan(vagrant_bolt_gitlab::clone_control_repo, $targets, {gitlab => $gitlab})
+  run_plan(vagrant_bolt_gitlab::clone_control_repo, $targets, {gitlab => $gitlab_fqdn})
 
   out::message('Updating Puppetfile')
-  run_task(vagrant_bolt_cd4pe::add_cd4pe_module, $targets, {gitlab => $gitlab})
+  run_task(vagrant_bolt_cd4pe::add_cd4pe_module, $targets, {gitlab => $gitlab_fqdn})
 
   out::message('Generating token')
   run_command('echo "puppetlabs" | /opt/puppetlabs/bin/puppet access login -l 0 --username "admin"', $targets)
