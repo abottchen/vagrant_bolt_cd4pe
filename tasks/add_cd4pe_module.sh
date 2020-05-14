@@ -1,6 +1,4 @@
 #!/bin/bash
-PT_gitlab="infra.puppetdebug.vlan"
-
 cd /root/dev/control-repo || exit
 
 git stash
