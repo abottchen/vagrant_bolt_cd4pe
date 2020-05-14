@@ -27,9 +27,6 @@ plan vagrant_bolt_cd4pe::wire_code_manager(
   out::message("Setting up dev environment on ${targets}")
   run_plan(vagrant_bolt_gitlab::clone_control_repo, $targets, {gitlab => $gitlab})
 
-  out::message('Removing protected branches')
-  run_task(vagrant_bolt_gitlab::unprotect_branches, $gitlab)
-
   out::message('Updating Puppetfile')
   run_task(vagrant_bolt_cd4pe::add_cd4pe_module, $targets, {gitlab => $gitlab})
 
