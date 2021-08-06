@@ -10,19 +10,31 @@ plan vagrant_bolt_cd4pe::cd4pe_config (
   without_default_logging() || { run_plan(facts, targets => $agent) }
   $agent_facts = get_target($agent).facts()
   $agent_fqdn = $agent_facts['fqdn']
-  $agent_ip = $agent_facts['ec2_metadata']['public-ipv4']
+  if($agent_facts['ec2_metadata']) {
+    $agent_ip = $agent_facts['networking']['ip']
+  } else {
+    $agent_ip = $agent_facts['ec2_metadata']['public-ipv4']
+  }
 
   $targets.apply_prep
   without_default_logging() || { run_plan(facts, targets => $targets) }
   $master_facts = get_target($targets).facts()
   $master_fqdn = $master_facts['fqdn']
-  $master_ip = $master_facts['ec2_metadata']['public-ipv4']
+  if($master_facts['ec2_metadata']) {
+    $master_ip = $master_facts['networking']['ip']
+  } else {
+    $master_ip = $master_facts['ec2_metadata']['public-ipv4']
+  }
 
   $gitlab.apply_prep
   without_default_logging() || { run_plan(facts, targets => $gitlab) }
   $gitlab_facts = get_target($gitlab).facts()
   $gitlab_fqdn = $gitlab_facts['fqdn']
-  $gitlab_ip = $gitlab_facts['ec2_metadata']['public-ipv4']
+  if($gitlab_facts['ec2_metadata']) {
+    $gitlab_ip = $gitlab_facts['networking']['ip']
+  } else {
+    $gitlab_ip = $gitlab_facts['ec2_metadata']['public-ipv4']
+  }
 
   $email = 'root@puppet.com'
   $password = 'test'
